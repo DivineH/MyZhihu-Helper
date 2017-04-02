@@ -63,9 +63,9 @@ class Login():
             cookie = self.get_cookie()
             return True
         else:
+            print('')
             print(u'登陆失败')
-            result = re.search(r"\'msg\': \'\w*\W*\'", str(response))
-            print(result.group())
+            print(response['msg'])
             return False
 
     @staticmethod
@@ -78,7 +78,8 @@ class Login():
         image = open(captcha_path, 'wb')
         image.write(content)
         image.close()
-
+        
+        print('')
         print(u'请输入您所看到的验证码')
         print(u'验证码位置:')
         print(captcha_path)
@@ -97,10 +98,10 @@ class Login():
         captcha = ''
         while not self.login(account, password, captcha):
             print(u'登录失败，可能需要输入验证码')
-            print(u'输入『yes』按回车更换其他账号')
+            print(u'输入『y』按回车更换其他账号')
             print(u'直接敲击回车获取验证码')
             confirm = input()
-            if confirm == 'yes':
+            if confirm == 'y':
                 account, password = set_account()
             captcha = self.get_captcha()
         return
