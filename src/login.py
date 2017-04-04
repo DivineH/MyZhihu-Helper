@@ -2,18 +2,19 @@
 
 import http.cookiejar as cookielib
 import os
-import re
 import sys
 import platform
 import webbrowser
 import json
 import urllib.request as urllib2
 import time
+
 from src.guide import *
 from src.tools.http import Http
 from src.tools.match import Match
 from src.tools.path import Path
 from src.tools.extra_tools import ExtraTools
+from src.tools.sql_manager import SqlManager
 
 class Login():
     def __init__(self):
@@ -60,7 +61,13 @@ class Login():
             print(u'登陆成功！')
             print(u'登陆账号:', account)
             
-            cookie = self.get_cookie()
+            print(u'是否记住该账号?')
+            print(u'输入『y』按回车保存该账号')
+            remember = input()
+
+            if remember == 'y':
+                SqlManager.exeSql('DELETE FROM config WHERE 1')
+                SqlManager.exeSql(r'''INSERT INTO config VALUES('%s', '%s')''' % (account, password))
             return True
         else:
             print('')
