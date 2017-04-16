@@ -16,11 +16,12 @@ def set_account():
 
     if not account:
         result = SqlManager.exeQuery('select * from config')
-        data = result.fetchone()
-        if data:
-            print('使用', data[0], '登录')
-            return data[0], data[1]
-        print('没有账号保存!')
+        if result:
+            data = result.fetchone()
+            if data:
+                print('使用', data[0], '登录')
+                return data[0], data[1]
+            print('没有账号保存!')
 
     while not re.search(r'\w+@[\w\.]{3,}', account):
         print(u'抱歉，输入的账号不规范...\n请输入正确的知乎登录邮箱\n')
